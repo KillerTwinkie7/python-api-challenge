@@ -32,16 +32,13 @@ filtered_burgl_crime = date_crime[date_crime['Highest Offense Description'].str.
 all_theft_crimes = pd.concat([filtered_theft_crime, filtered_burgl_crime], ignore_index=True)
 
 bins = [pd.Timestamp(year, month, 20) for year in range(2003, 2024) for month in [3, 6, 9, 12]]
-# print(bins)
 
-for i in range(len(bins)):
-    ordinal.append(bins[i].toordinal())
+all_theft_crimes['Occurred Date'] = pd.to_datetime(all_theft_crimes['Occurred Date'], format='mixed')
 
-# print(ordinal)
 all_theft_crimes['Season'] = pd.cut(
     all_theft_crimes['Occurred Date'].dt.dayofyear,
     bins= [31, 91, 152, 212, 365],
-    labels=['Spring', 'Summer', 'Fall', 'Winter']
+    labels=['Winter', 'Spring', 'Summer', 'Fall']
     )
 
 print(all_theft_crimes)
